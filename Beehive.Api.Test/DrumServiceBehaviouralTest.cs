@@ -59,13 +59,15 @@ namespace Beehive.Api.Test
             _fixture.ClearDatabase();
             _fixture.Replace<IDrumClient>(new DrumClientStub());
             var itemUnderTest = _fixture.GetService<IDrumService>();
+            var repository = _fixture.GetService<IRepository<Drum>>();
+            var itemsInRepoBeforeMethodCall = repository.GetAll();
+            itemsInRepoBeforeMethodCall.Count().Should().Be(0);
 
             await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
 
-            var repository = _fixture.GetService<IRepository<Drum>>();
-            var itemsInRepo = repository.GetAll();
-            itemsInRepo.Count().Should().Be(1);
-            itemsInRepo.FirstOrDefault()?.Label.Should().Be("Second test drum");
+            var itemsInRepoAfterMethodCall = repository.GetAll();
+            itemsInRepoAfterMethodCall.Count().Should().Be(1);
+            itemsInRepoAfterMethodCall.FirstOrDefault()?.Label.Should().Be("Second test drum");
         }
 
         [Fact]
