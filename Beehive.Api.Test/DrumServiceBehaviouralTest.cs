@@ -27,7 +27,7 @@ namespace Beehive.Api.Test
         }
 
         [Fact]
-        public void ShouldSwapOutDrumClientCorrectlyWhenUsingGenericMethod()
+        public void ShouldSwapOutDrumClientCorrectlyWithStubbedImplementation()
         {
             _fixture.Replace<IDrumClient>(new DrumClientStub2());
             var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
