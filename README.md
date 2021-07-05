@@ -1,4 +1,4 @@
-A little sample application that highlights a few testing concepts in dot net core. First off, we are using the 'real' dependency graph for testing the application, and then only replacing the 'boundaries'. This makes this testing strategy much more resilient to refactoring.
+A little sample application that highlights a few testing concepts in dot net core. First off, we are using the 'real' dependency graph for testing the application, and then only replacing the 'boundaries' with stubs or mocks. This makes this testing strategy much more resilient to refactoring.
 
 Some features include:
 
@@ -20,3 +20,5 @@ The imagined functionality here is quite simple, and largely implemented in the 
 - We call out to an (imagined) API via the DrumClient. This is simply a dummy implementation.
 - The response is persisted into the database.
 - The response is also returned to the caller.
+
+The tests prove the basic functionality, including confirming that we are persisting the correct data to the database and that we are sending the correct parameter over to the "API".
