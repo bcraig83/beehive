@@ -7,3 +7,16 @@ Some features include:
 - Some helper methods, such as clearing down the database. 
 
 Most of this functionality can be found in the "Fixture" class.
+
+The application follows the 'clean architecture' style of application.
+
+I've also employed the "Unit of Work" pattern for bundling repositories together and allowing us to save changes to the database in a transactional manner.
+
+The application is wired up in the standard way, from the "ConfigureServices" method in the Startup class. In the constructor for the "Fixture" class, we can see how this is exercised, and then various 'boundary' components are replaced, such as the database and the API client.
+
+The imagined functionality here is quite simple, and largely implemented in the DrumService class.
+
+- A request comes in to get a drum of honey.
+- We call out to an (imagined) API via the DrumClient. This is simply a dummy implementation.
+- The response is persisted into the database.
+- The response is also returned to the caller.
