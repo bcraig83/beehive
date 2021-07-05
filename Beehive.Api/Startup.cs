@@ -4,6 +4,7 @@ using Beehive.Api.Infrastructure.Clients;
 using Beehive.Api.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +33,9 @@ namespace Beehive.Api
             services.AddTransient<IRepository<Drum>, Repository<Drum>>();
             services.AddTransient<IDrumService, DrumService>();
             services.AddTransient<IDrumClient, DrumClient>();
-            services.AddDbContext<DrumDbContext>();
+            
+            services.AddDbContext<DrumDbContext>(options => options.UseInMemoryDatabase("drumSampleDb"));
+            services.AddScoped<DbContext>(provider => provider.GetService<DrumDbContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

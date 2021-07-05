@@ -1,10 +1,10 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Beehive.Api.Core.Models.Domain
 {
     public class Drum
     {
-        public string Id { get; } = Guid.NewGuid().ToString();
+        [Key] public int Id { get; set; }
         public Size Size { get; set; } = Size.Medium;
         public string Label { get; set; }
         public int WarehouseNumber { get; set; } = 1;
@@ -16,6 +16,4 @@ namespace Beehive.Api.Core.Models.Domain
         Medium,
         Small
     }
-
-
 }
