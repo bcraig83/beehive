@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Beehive.Api.Infrastructure.Clients;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -42,16 +41,6 @@ namespace Beehive.Api.Test
             var scope = ScopeFactory.CreateScope();
             var result = scope.ServiceProvider.GetRequiredService<T>();
             return result;
-        }
-
-        public void ReplaceDrumClient()
-        {
-            var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(IDrumClient));
-
-            if (descriptor != null) _services.Remove(descriptor);
-
-            _services.AddScoped<IDrumClient, DrumClientStub>();
-            InitializeScopeFactory();
         }
 
         public void Replace<T>(T replacement) where T : class
