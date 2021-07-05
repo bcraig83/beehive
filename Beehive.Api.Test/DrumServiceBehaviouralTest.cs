@@ -3,6 +3,7 @@ using System.Linq;
 using Beehive.Api.Core.Models.Domain;
 using Beehive.Api.Core.Services;
 using Beehive.Api.Infrastructure.Clients;
+using Beehive.Api.Infrastructure.Repositories;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -46,6 +47,17 @@ namespace Beehive.Api.Test
             var itemUnderTest = _fixture.GetService<IDrumService>();
             var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 5});
             result.Drums.FirstOrDefault()?.Label.Should().Be("Mocked Drum");
+        }
+
+        [Fact]
+        public void ShouldWriteDrumToRepository()
+        {
+            _fixture.Replace<IDrumClient>(new DrumClientStub2());
+            var itemUnderTest = _fixture.GetService<IDrumService>();
+            itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 4});
+            var repository = _fixture.GetService<IRepository<Drum>>();
+            var itemsInRepo = repository.GetAll();
+            itemsInRepo.Count().Should().Be(1);
         }
     }
 
