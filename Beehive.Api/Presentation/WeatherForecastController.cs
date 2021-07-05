@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Beehive.Api.Controllers
+namespace Beehive.Api.Presentation
 {
     [ApiController]
     [Route("[controller]")]
