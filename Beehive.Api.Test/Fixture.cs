@@ -9,6 +9,8 @@ namespace Beehive.Api.Test
 {
     public class Fixture : IDisposable
     {
+        private readonly ServiceCollection _services;
+
         public Fixture()
         {
             var builder = new ConfigurationBuilder().AddInMemoryCollection();
@@ -18,10 +20,10 @@ namespace Beehive.Api.Test
             //configuration["ApiUrl"] = "http://someurl/api";
 
             var startup = new Startup(configuration);
-            var services = new ServiceCollection();
-            startup.ConfigureServices(services);
-            ReplaceDrumClient(services);
-            ScopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            _services = new ServiceCollection();
+            startup.ConfigureServices(_services);
+            ReplaceDrumClient(_services);
+            ScopeFactory = _services.BuildServiceProvider().GetService<IServiceScopeFactory>();
         }
 
         private IServiceScopeFactory ScopeFactory { get; }
