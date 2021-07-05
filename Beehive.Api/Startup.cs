@@ -33,7 +33,7 @@ namespace Beehive.Api
             services.AddTransient<IRepository<Drum>, Repository<Drum>>();
             services.AddTransient<IDrumService, DrumService>();
             services.AddTransient<IDrumClient, DrumClient>();
-            
+
             services.AddDbContext<DrumDbContext>(options => options.UseInMemoryDatabase("drumSampleDb"));
             services.AddScoped<DbContext>(provider => provider.GetService<DrumDbContext>());
         }
