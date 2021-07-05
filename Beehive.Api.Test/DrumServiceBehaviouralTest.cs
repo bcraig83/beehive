@@ -22,7 +22,7 @@ namespace Beehive.Api.Test
         [Fact]
         public void ShouldBeAbleToRetrieveTheItemUnderTest()
         {
-            var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
+            var itemUnderTest = _fixture.GetService<IDrumService>();
             itemUnderTest.Should().NotBeNull();
         }
 
@@ -30,7 +30,7 @@ namespace Beehive.Api.Test
         public void ShouldSwapOutDrumClientCorrectlyWithStubbedImplementation()
         {
             _fixture.Replace<IDrumClient>(new DrumClientStub2());
-            var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
+            var itemUnderTest = _fixture.GetService<IDrumService>();
             var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 4});
             result.Drums.FirstOrDefault()?.Label.Should().Be("Second test drum");
         }
@@ -43,7 +43,7 @@ namespace Beehive.Api.Test
                 .Setup(x => x.GetDrumsForWarehouse(It.IsAny<int>()))
                 .Returns(new List<Drum> {new() {Label = "Mocked Drum"}});
             _fixture.Replace(mockedClient.Object);
-            var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
+            var itemUnderTest = _fixture.GetService<IDrumService>();
             var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 5});
             result.Drums.FirstOrDefault()?.Label.Should().Be("Mocked Drum");
         }

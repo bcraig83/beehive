@@ -36,7 +36,7 @@ namespace Beehive.Api.Test
             ScopeFactory = _services.BuildServiceProvider().GetService<IServiceScopeFactory>();
         }
 
-        public T GetItemUnderTest<T>() where T : class
+        public T GetService<T>() where T : class
         {
             var scope = ScopeFactory.CreateScope();
             var result = scope.ServiceProvider.GetRequiredService<T>();
@@ -51,7 +51,6 @@ namespace Beehive.Api.Test
             InitializeScopeFactory();
         }
     }
-
 
     [CollectionDefinition("Behavioural Tests")]
     public class BehaviouralTestCollection : ICollectionFixture<Fixture>
