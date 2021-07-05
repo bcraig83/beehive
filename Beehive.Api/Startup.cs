@@ -1,3 +1,7 @@
+using Beehive.Api.Core.Models.Domain;
+using Beehive.Api.Core.Services;
+using Beehive.Api.Infrastructure.Clients;
+using Beehive.Api.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +28,11 @@ namespace Beehive.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Beehive.Api", Version = "v1"});
             });
+
+            services.AddTransient<IRepository<Drum>, Repository<Drum>>();
+            services.AddTransient<IDrumService, DrumService>();
+            services.AddTransient<IDrumClient, DrumClient>();
+            services.AddDbContext<DrumDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
