@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Beehive.Api.Core.Models.Domain;
 
 namespace Beehive.Api.Infrastructure.Clients
@@ -8,7 +7,16 @@ namespace Beehive.Api.Infrastructure.Clients
     {
         public IEnumerable<Drum> GetDrumsForWarehouse(int warehouseNumber)
         {
-            throw new NotImplementedException();
+            // Dummy implementation
+            var result = new List<Drum>
+            {
+                new()
+                {
+                    Label = "ANDSDG123", Size = Size.Small, WarehouseNumber = 1
+                }
+            };
+            
+            return result;
         }
     }
 }
