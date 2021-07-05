@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beehive.Api", "Beehive.Api\Beehive.Api.csproj", "{628F8D68-D1E8-4241-AAF8-C9F3D860CE17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beehive.Api.Test", "Beehive.Api.Test\Beehive.Api.Test.csproj", "{5BE62BCE-5755-455E-9B8A-DC091311E213}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{628F8D68-D1E8-4241-AAF8-C9F3D860CE17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{628F8D68-D1E8-4241-AAF8-C9F3D860CE17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{628F8D68-D1E8-4241-AAF8-C9F3D860CE17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE62BCE-5755-455E-9B8A-DC091311E213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE62BCE-5755-455E-9B8A-DC091311E213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE62BCE-5755-455E-9B8A-DC091311E213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE62BCE-5755-455E-9B8A-DC091311E213}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
