@@ -30,7 +30,7 @@ namespace Beehive.Api.Test
         [Fact]
         public async void ShouldSwapOutDrumClientCorrectlyWithStubbedImplementation()
         {
-            _fixture.Replace<IDrumClient>(new DrumClientStub2());
+            _fixture.Replace<IDrumClient>(new DrumClientStub());
             var itemUnderTest = _fixture.GetService<IDrumService>();
 
             var result = await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
@@ -57,7 +57,7 @@ namespace Beehive.Api.Test
         public async void ShouldWriteDrumToRepository()
         {
             ClearDatabase();
-            _fixture.Replace<IDrumClient>(new DrumClientStub2());
+            _fixture.Replace<IDrumClient>(new DrumClientStub());
             var itemUnderTest = _fixture.GetService<IDrumService>();
 
             await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
@@ -66,6 +66,19 @@ namespace Beehive.Api.Test
             var itemsInRepo = repository.GetAll();
             itemsInRepo.Count().Should().Be(1);
             itemsInRepo.FirstOrDefault()?.Label.Should().Be("Second test drum");
+        }
+
+        [Fact]
+        public async void ShouldUseSpyToRecordParametersSentToApi()
+        {
+            var spy = new DrumClientSpy();
+            _fixture.Replace<IDrumClient>(spy);
+            var itemUnderTest = _fixture.GetService<IDrumService>();
+
+            await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
+
+            spy.RecordedWarehouseNumbers.Count.Should().Be(1);
+            spy.RecordedWarehouseNumbers.FirstOrDefault().Should().Be(4);
         }
 
         private async void ClearDatabase()
@@ -77,7 +90,7 @@ namespace Beehive.Api.Test
         }
     }
 
-    public class DrumClientStub2 : IDrumClient
+    public class DrumClientStub : IDrumClient
     {
         public IEnumerable<Drum> GetDrumsForWarehouse(int warehouseNumber)
         {
@@ -92,6 +105,17 @@ namespace Beehive.Api.Test
             };
 
             return result;
+        }
+    }
+
+    public class DrumClientSpy : IDrumClient
+    {
+        public IList<int> RecordedWarehouseNumbers { get; } = new List<int>();
+
+        public IEnumerable<Drum> GetDrumsForWarehouse(int warehouseNumber)
+        {
+            RecordedWarehouseNumbers.Add(warehouseNumber);
+            return new List<Drum>();
         }
     }
 }
