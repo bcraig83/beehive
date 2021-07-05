@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Beehive.Api.Infrastructure.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -22,6 +24,7 @@ namespace Beehive.Api.Test
             _services = new ServiceCollection();
             startup.ConfigureServices(_services);
             InitializeScopeFactory();
+            UseInMemoryDatabase();
         }
 
         private IServiceScopeFactory ScopeFactory { get; set; }
@@ -49,6 +52,17 @@ namespace Beehive.Api.Test
             if (descriptor != null) _services.Remove(descriptor);
             _services.AddScoped(_ => replacement);
             InitializeScopeFactory();
+        }
+
+        private void UseInMemoryDatabase()
+        {
+            var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(DrumDbContext));
+            if (descriptor != null) _services.Remove(descriptor);
+            _services.AddDbContext<DrumDbContext>(options => options.UseInMemoryDatabase("drumSampleDb"));
+
+            descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(DbContext));
+            if (descriptor != null) _services.Remove(descriptor);
+            _services.AddScoped<DbContext>(provider => provider.GetService<DrumDbContext>());
         }
     }
 
