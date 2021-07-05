@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Beehive.Api.Core.Models.Domain
+namespace Beehive.Api.Core.Models
 {
     public class Drum
     {

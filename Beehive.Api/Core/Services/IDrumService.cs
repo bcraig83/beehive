@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Beehive.Api.Core.Models.Domain;
+using Beehive.Api.Core.Models;
 
 namespace Beehive.Api.Core.Services
 {

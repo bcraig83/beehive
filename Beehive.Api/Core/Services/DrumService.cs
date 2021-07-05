@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Beehive.Api.Infrastructure.Clients;
-using Beehive.Api.Infrastructure.DataAccess;
+using Beehive.Api.Core.Interfaces.Clients;
+using Beehive.Api.Core.Interfaces.DataAccess;
 
 namespace Beehive.Api.Core.Services
 {

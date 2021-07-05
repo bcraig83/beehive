@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Beehive.Api.Core.Interfaces.DataAccess;
 using Beehive.Api.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

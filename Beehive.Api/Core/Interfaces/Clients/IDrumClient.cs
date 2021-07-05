@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Beehive.Api.Core.Models.Domain;
+using Beehive.Api.Core.Models;
 
-namespace Beehive.Api.Infrastructure.Clients
+namespace Beehive.Api.Core.Interfaces.Clients
 {
     public interface IDrumClient
     {

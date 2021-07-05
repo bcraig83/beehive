@@ -1,4 +1,6 @@
-using Beehive.Api.Core.Models.Domain;
+using Beehive.Api.Core.Interfaces.Clients;
+using Beehive.Api.Core.Interfaces.DataAccess;
+using Beehive.Api.Core.Models;
 using Beehive.Api.Core.Services;
 using Beehive.Api.Infrastructure.Clients;
 using Beehive.Api.Infrastructure.DataAccess;

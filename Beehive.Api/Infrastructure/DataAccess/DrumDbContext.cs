@@ -1,4 +1,4 @@
-﻿using Beehive.Api.Core.Models.Domain;
+﻿using Beehive.Api.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Beehive.Api.Infrastructure.DataAccess

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Beehive.Api.Core.Models.Domain;
+using Beehive.Api.Core.Interfaces.DataAccess;
+using Beehive.Api.Core.Models;
 
 namespace Beehive.Api.Infrastructure.DataAccess
 {
