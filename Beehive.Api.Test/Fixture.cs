@@ -24,8 +24,8 @@ namespace Beehive.Api.Test
             var startup = new Startup(configuration);
             _services = new ServiceCollection();
             startup.ConfigureServices(_services);
-            InitializeScopeFactory();
             UseInMemoryDatabase();
+            InitializeScopeFactory();
         }
 
         private IServiceScopeFactory ScopeFactory { get; set; }
