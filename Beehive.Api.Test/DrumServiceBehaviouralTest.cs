@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Beehive.Api.Core.Interfaces.Clients;
+using Beehive.Api.Core.Interfaces.DataAccess;
 using Beehive.Api.Core.Models;
 using Beehive.Api.Core.Services;
 using Beehive.Api.Infrastructure.Clients;

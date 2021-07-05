@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Beehive.Api.Core.Interfaces.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace Beehive.Api.Infrastructure.DataAccess
