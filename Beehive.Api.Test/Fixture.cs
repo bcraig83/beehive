@@ -54,11 +54,13 @@ namespace Beehive.Api.Test
             _services.AddScoped<IDrumClient, DrumClientStub>();
         }
 
-        // public void Replace<T>(T replacement) where T : class
-        // {
-        //     var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(IDrumClient));
-        //     
-        // }
+        public void Replace<T>(T replacement) where T : class
+        {
+            var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(T));
+            if (descriptor != null) _services.Remove(descriptor);
+            _services.AddScoped(_ => replacement);
+            InitializeScopeFactory();
+        }
     }
 
 
