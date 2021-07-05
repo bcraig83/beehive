@@ -4,6 +4,7 @@ using Beehive.Api.Core.Models.Domain;
 using Beehive.Api.Core.Services;
 using Beehive.Api.Infrastructure.Clients;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace Beehive.Api.Test
@@ -41,6 +42,19 @@ namespace Beehive.Api.Test
             var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
             var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 4});
             result.Drums.FirstOrDefault()?.Label.Should().Be("Second test drum");
+        }
+
+        [Fact]
+        public void ShouldSwapOutDrumClientCorrectlyWithMockedObject()
+        {
+            var mockedClient = new Mock<IDrumClient>();
+            mockedClient
+                .Setup(x => x.GetDrumsForWarehouse(It.IsAny<int>()))
+                .Returns(new List<Drum> {new() {Label = "Mocked Drum"}});
+            _fixture.Replace(mockedClient.Object);
+            var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
+            var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 5});
+            result.Drums.FirstOrDefault()?.Label.Should().Be("Mocked Drum");
         }
     }
 
