@@ -16,7 +16,7 @@ namespace Beehive.Api.Infrastructure.Clients
                     Label = "ANDSDG123", Size = Size.Small, WarehouseNumber = 1
                 }
             };
-            
+
             return result;
         }
     }
