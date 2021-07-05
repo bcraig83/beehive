@@ -22,15 +22,20 @@ namespace Beehive.Api.Test
             var startup = new Startup(configuration);
             _services = new ServiceCollection();
             startup.ConfigureServices(_services);
-            ReplaceDrumClient(_services);
-            ScopeFactory = _services.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            InitializeScopeFactory();
         }
 
-        private IServiceScopeFactory ScopeFactory { get; }
+        private IServiceScopeFactory ScopeFactory { get; set; }
 
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+        }
+
+        private void InitializeScopeFactory()
+        {
+            ReplaceDrumClient(_services);
+            ScopeFactory = _services.BuildServiceProvider().GetService<IServiceScopeFactory>();
         }
 
         public T GetItemUnderTest<T>() where T : class
