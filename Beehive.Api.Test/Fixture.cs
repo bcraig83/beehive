@@ -34,7 +34,7 @@ namespace Beehive.Api.Test
 
         private void InitializeScopeFactory()
         {
-            ReplaceDrumClient(_services);
+            ReplaceDrumClient();
             ScopeFactory = _services.BuildServiceProvider().GetService<IServiceScopeFactory>();
         }
 
@@ -45,14 +45,20 @@ namespace Beehive.Api.Test
             return result;
         }
 
-        private static void ReplaceDrumClient(IServiceCollection services)
+        private void ReplaceDrumClient()
         {
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDrumClient));
+            var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(IDrumClient));
 
-            if (descriptor != null) services.Remove(descriptor);
+            if (descriptor != null) _services.Remove(descriptor);
 
-            services.AddScoped<IDrumClient, DrumClientStub>();
+            _services.AddScoped<IDrumClient, DrumClientStub>();
         }
+
+        // public void Replace<T>(T replacement) where T : class
+        // {
+        //     var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(IDrumClient));
+        //     
+        // }
     }
 
 
