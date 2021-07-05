@@ -28,9 +28,19 @@ namespace Beehive.Api.Test
         [Fact]
         public void ShouldSwapOutDrumClientCorrectly()
         {
+            _fixture.ReplaceDrumClient();
             var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
             var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 3});
             result.Drums.FirstOrDefault()?.Label.Should().Be("Test Drum");
+        }
+
+        [Fact]
+        public void ShouldSwapOutDrumClientCorrectlyWhenUsingGenericMethod()
+        {
+            _fixture.Replace<IDrumClient>(new DrumClientStub2());
+            var itemUnderTest = _fixture.GetItemUnderTest<IDrumService>();
+            var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 4});
+            result.Drums.FirstOrDefault()?.Label.Should().Be("Second test drum");
         }
     }
 
@@ -46,6 +56,24 @@ namespace Beehive.Api.Test
                     Size = Size.Large,
                     WarehouseNumber = 3,
                     Label = "Test Drum"
+                }
+            };
+
+            return result;
+        }
+    }
+
+    public class DrumClientStub2 : IDrumClient
+    {
+        public IEnumerable<Drum> GetDrumsForWarehouse(int warehouseNumber)
+        {
+            var result = new List<Drum>
+            {
+                new()
+                {
+                    Size = Size.Small,
+                    WarehouseNumber = 4,
+                    Label = "Second test drum"
                 }
             };
 

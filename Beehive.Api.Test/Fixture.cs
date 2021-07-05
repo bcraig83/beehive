@@ -34,7 +34,6 @@ namespace Beehive.Api.Test
 
         private void InitializeScopeFactory()
         {
-            ReplaceDrumClient();
             ScopeFactory = _services.BuildServiceProvider().GetService<IServiceScopeFactory>();
         }
 
@@ -45,13 +44,14 @@ namespace Beehive.Api.Test
             return result;
         }
 
-        private void ReplaceDrumClient()
+        public void ReplaceDrumClient()
         {
             var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(IDrumClient));
 
             if (descriptor != null) _services.Remove(descriptor);
 
             _services.AddScoped<IDrumClient, DrumClientStub>();
+            InitializeScopeFactory();
         }
 
         public void Replace<T>(T replacement) where T : class
