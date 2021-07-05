@@ -1,4 +1,5 @@
-﻿using Beehive.Api.Core.Services;
+﻿using System.Threading.Tasks;
+using Beehive.Api.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beehive.Api.Presentation
@@ -15,10 +16,10 @@ namespace Beehive.Api.Presentation
         }
 
         [HttpGet("{warehouseNumber:int}")]
-        public ActionResult Get(int warehouseNumber)
+        public async Task<ActionResult> Get(int warehouseNumber)
         {
             var query = new GetDrumsQueryDto {WarehouseNumber = warehouseNumber};
-            var result = _service.Get(query);
+            var result = await _service.GetAsync(query);
 
             return Ok(result);
         }

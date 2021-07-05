@@ -1,7 +1,7 @@
 using Beehive.Api.Core.Models.Domain;
 using Beehive.Api.Core.Services;
 using Beehive.Api.Infrastructure.Clients;
-using Beehive.Api.Infrastructure.Repositories;
+using Beehive.Api.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +33,7 @@ namespace Beehive.Api
             services.AddTransient<IRepository<Drum>, Repository<Drum>>();
             services.AddTransient<IDrumService, DrumService>();
             services.AddTransient<IDrumClient, DrumClient>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddDbContext<DrumDbContext>(options => options.UseInMemoryDatabase("drumSampleDb"));
             services.AddScoped<DbContext>(provider => provider.GetService<DrumDbContext>());

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Beehive.Api.Infrastructure.Repositories
+namespace Beehive.Api.Infrastructure.DataAccess
 {
     public class Repository<T> : IRepository<T> where T : class
     {

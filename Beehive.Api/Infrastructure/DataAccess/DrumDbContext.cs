@@ -1,7 +1,7 @@
 ﻿using Beehive.Api.Core.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Beehive.Api.Infrastructure.Repositories
+namespace Beehive.Api.Infrastructure.DataAccess
 {
     public class DrumDbContext : DbContext
     {

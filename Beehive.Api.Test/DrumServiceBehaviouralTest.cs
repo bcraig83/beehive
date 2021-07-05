@@ -3,7 +3,7 @@ using System.Linq;
 using Beehive.Api.Core.Models.Domain;
 using Beehive.Api.Core.Services;
 using Beehive.Api.Infrastructure.Clients;
-using Beehive.Api.Infrastructure.Repositories;
+using Beehive.Api.Infrastructure.DataAccess;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -28,16 +28,18 @@ namespace Beehive.Api.Test
         }
 
         [Fact]
-        public void ShouldSwapOutDrumClientCorrectlyWithStubbedImplementation()
+        public async void ShouldSwapOutDrumClientCorrectlyWithStubbedImplementation()
         {
             _fixture.Replace<IDrumClient>(new DrumClientStub2());
             var itemUnderTest = _fixture.GetService<IDrumService>();
-            var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 4});
+
+            var result = await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
+
             result.Drums.FirstOrDefault()?.Label.Should().Be("Second test drum");
         }
 
         [Fact]
-        public void ShouldSwapOutDrumClientCorrectlyWithMockedObject()
+        public async void ShouldSwapOutDrumClientCorrectlyWithMockedObject()
         {
             var mockedClient = new Mock<IDrumClient>();
             mockedClient
@@ -45,19 +47,33 @@ namespace Beehive.Api.Test
                 .Returns(new List<Drum> {new() {Label = "Mocked Drum"}});
             _fixture.Replace(mockedClient.Object);
             var itemUnderTest = _fixture.GetService<IDrumService>();
-            var result = itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 5});
+
+            var result = await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 5});
+
             result.Drums.FirstOrDefault()?.Label.Should().Be("Mocked Drum");
         }
 
         [Fact]
-        public void ShouldWriteDrumToRepository()
+        public async void ShouldWriteDrumToRepository()
         {
+            ClearDatabase();
             _fixture.Replace<IDrumClient>(new DrumClientStub2());
             var itemUnderTest = _fixture.GetService<IDrumService>();
-            itemUnderTest.Get(new GetDrumsQueryDto {WarehouseNumber = 4});
+            await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
             var repository = _fixture.GetService<IRepository<Drum>>();
+
             var itemsInRepo = repository.GetAll();
+
             itemsInRepo.Count().Should().Be(1);
+            itemsInRepo.FirstOrDefault()?.Label.Should().Be("Second test drum");
+        }
+
+        private async void ClearDatabase()
+        {
+            var unitOfWork = _fixture.GetService<IUnitOfWork>();
+            var existingEntities = unitOfWork.DrumRepository.GetAll();
+            foreach (var entity in existingEntities) unitOfWork.DrumRepository.Delete(entity);
+            await unitOfWork.SaveChangesAsync();
         }
     }
 

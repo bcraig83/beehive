@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Beehive.Api.Infrastructure.Repositories
+namespace Beehive.Api.Infrastructure.DataAccess
 {
     public interface IRepository<T> where T : class
     {

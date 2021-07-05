@@ -1,28 +1,31 @@
-﻿using Beehive.Api.Core.Models.Domain;
+﻿using System.Threading.Tasks;
 using Beehive.Api.Infrastructure.Clients;
-using Beehive.Api.Infrastructure.Repositories;
+using Beehive.Api.Infrastructure.DataAccess;
 
 namespace Beehive.Api.Core.Services
 {
     public class DrumService : IDrumService
     {
         private readonly IDrumClient _client;
-        private readonly IRepository<Drum> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DrumService(IRepository<Drum> repository, IDrumClient client)
+        public DrumService(
+            IDrumClient client,
+            IUnitOfWork unitOfWork)
         {
-            _repository = repository;
             _client = client;
+            _unitOfWork = unitOfWork;
         }
 
-        public GetDrumsResponseDto Get(GetDrumsQueryDto query)
+        public async Task<GetDrumsResponseDto> GetAsync(GetDrumsQueryDto query)
         {
             var result = new GetDrumsResponseDto();
 
             var responseFromApi = _client.GetDrumsForWarehouse(query.WarehouseNumber);
             foreach (var drum in responseFromApi)
             {
-                _repository.Add(drum);
+                _unitOfWork.DrumRepository.Add(drum);
+                await _unitOfWork.SaveChangesAsync();
 
                 var drumResponse = new DrumDto
                 {

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Beehive.Api.Core.Models.Domain;
 
 namespace Beehive.Api.Core.Services
 {
     public interface IDrumService
     {
-        public GetDrumsResponseDto Get(GetDrumsQueryDto query);
+        public Task<GetDrumsResponseDto> GetAsync(GetDrumsQueryDto query);
     }
 
     public class GetDrumsQueryDto
