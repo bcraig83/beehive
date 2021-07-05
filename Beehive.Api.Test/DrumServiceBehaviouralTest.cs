@@ -56,7 +56,7 @@ namespace Beehive.Api.Test
         [Fact]
         public async void ShouldWriteDrumToRepository()
         {
-            ClearDatabase();
+            _fixture.ClearDatabase();
             _fixture.Replace<IDrumClient>(new DrumClientStub());
             var itemUnderTest = _fixture.GetService<IDrumService>();
 
@@ -79,14 +79,6 @@ namespace Beehive.Api.Test
 
             spy.RecordedWarehouseNumbers.Count.Should().Be(1);
             spy.RecordedWarehouseNumbers.FirstOrDefault().Should().Be(4);
-        }
-
-        private async void ClearDatabase()
-        {
-            var unitOfWork = _fixture.GetService<IUnitOfWork>();
-            var existingEntities = unitOfWork.DrumRepository.GetAll();
-            foreach (var entity in existingEntities) unitOfWork.DrumRepository.Delete(entity);
-            await unitOfWork.SaveChangesAsync();
         }
     }
 

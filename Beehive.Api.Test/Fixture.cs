@@ -64,6 +64,14 @@ namespace Beehive.Api.Test
             if (descriptor != null) _services.Remove(descriptor);
             _services.AddScoped<DbContext>(provider => provider.GetService<DrumDbContext>());
         }
+
+        public async void ClearDatabase()
+        {
+            var unitOfWork = GetService<IUnitOfWork>();
+            var existingEntities = unitOfWork.DrumRepository.GetAll();
+            foreach (var entity in existingEntities) unitOfWork.DrumRepository.Delete(entity);
+            await unitOfWork.SaveChangesAsync();
+        }
     }
 
     [CollectionDefinition("Behavioural Tests")]
