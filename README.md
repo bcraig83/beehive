@@ -1,3 +1,5 @@
+# Introduction
+
 A little sample application that highlights a few testing concepts in dot net core. First off, we are using the 'real' dependency graph for testing the application, and then only replacing the 'boundaries' with stubs or mocks. This makes this testing strategy much more resilient to refactoring.
 
 Some features include:
@@ -22,3 +24,17 @@ The imagined functionality here is quite simple, and largely implemented in the 
 - The response is also returned to the caller.
 
 The tests prove the basic functionality, including confirming that we are persisting the correct data to the database and that we are sending the correct parameter over to the "API".
+
+# Version 2
+
+A second version has been added, "Beehive.Api2" as well as the accompanying test project. The main differences:
+
+- This has been written in .net 6.
+- It uses a CustomWebApplicationFactory instead of a fixture.
+- I've abandoned some of the clean architecture concepts, just to highlight a different architecture style. Specifically:
+  - I have separated the application as per the template Web API project, as opposed to features and layers.
+  - I have abandoned the repository and unit of work, instead leaning on the Db context to act as a repository.
+- I've had to make the "Program" class partial, to allow it to be used in the CustomWebAplicationFactory.
+- I've included extension methods to help with replacing services in the dependency graph.
+
+I think this may be a preferred approach to the original. You can see how all of the tests have been implemented using this apporach, compared to the original. Also, this approach lets us test at the API level, which may be required if we are plugging into .net middleware.
