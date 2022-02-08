@@ -1,3 +1,4 @@
+using Beehive.Api2.Clients;
 using Beehive.Api2.DataAccess;
 using Beehive.Api2.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IDrumService, DrumService>();
+builder.Services.AddTransient<IDrumClient, DrumClient>();
 builder.Services.AddDbContext<DrumDbContext>(options => options.UseInMemoryDatabase("drumSampleDbV2"));
 
 var app = builder.Build();

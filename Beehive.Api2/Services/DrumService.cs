@@ -1,4 +1,5 @@
-﻿using Beehive.Api2.DataAccess;
+﻿using Beehive.Api2.Clients;
+using Beehive.Api2.DataAccess;
 using Beehive.Api2.Exceptions;
 using Beehive.Api2.Models.DTOs;
 using Beehive.Api2.Models.Entities;
@@ -8,15 +9,23 @@ namespace Beehive.Api2.Services;
 
 public class DrumService : IDrumService
 {
+    private readonly IDrumClient _client;
     private readonly DrumDbContext _context;
 
-    public DrumService(DrumDbContext context)
+    public DrumService(
+        DrumDbContext context,
+        IDrumClient client)
     {
         _context = context;
+        _client = client;
     }
 
     public async Task<IEnumerable<DrumDto>> GetAllAsync()
     {
+        var responseFromApi = _client.GetDrumsForWarehouse(1);
+        _context.Drums.AddRange(responseFromApi);
+        await _context.SaveChangesAsync();
+
         var entityList = await _context.Drums.ToListAsync();
 
         return entityList
