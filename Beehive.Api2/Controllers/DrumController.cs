@@ -17,9 +17,9 @@ public class DrumController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<DrumDto> Get()
+    public async Task<IEnumerable<DrumDto>> Get()
     {
-        return new List<DrumDto>();
+        return await _drumService.GetAllAsync();
     }
 
     // GET: api/Drum/5

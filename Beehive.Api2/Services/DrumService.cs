@@ -2,6 +2,7 @@
 using Beehive.Api2.Exceptions;
 using Beehive.Api2.Models.DTOs;
 using Beehive.Api2.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Beehive.Api2.Services;
 
@@ -12,6 +13,20 @@ public class DrumService : IDrumService
     public DrumService(DrumDbContext context)
     {
         _context = context;
+    }
+
+    public async Task<IEnumerable<DrumDto>> GetAllAsync()
+    {
+        var entityList = await _context.Drums.ToListAsync();
+
+        return entityList
+            .Select(item => new DrumDto
+            {
+                Id = item.Id,
+                Label = item.Label,
+                WarehouseNumber = item.WarehouseNumber
+            })
+            .ToList();
     }
 
     public async Task<DrumDto> CreateAsync(DrumDto drumToCreate)
@@ -32,10 +47,12 @@ public class DrumService : IDrumService
         var result = _context.Drums.Add(entity);
         await _context.SaveChangesAsync();
 
-        var dto = new DrumDto();
-        dto.Id = result.Entity.Id;
-        dto.Label = result.Entity.Label;
-        dto.WarehouseNumber = result.Entity.WarehouseNumber;
+        var dto = new DrumDto
+        {
+            Id = result.Entity.Id,
+            Label = result.Entity.Label,
+            WarehouseNumber = result.Entity.WarehouseNumber
+        };
 
         return dto;
     }
