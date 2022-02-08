@@ -33,7 +33,7 @@ namespace Beehive.Api.Test
             _fixture.Replace<IDrumClient>(new DrumClientStub());
             var itemUnderTest = _fixture.GetService<IDrumService>();
 
-            var result = await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
+            var result = await itemUnderTest.GetAsync(new GetDrumsQueryDto { WarehouseNumber = 4 });
 
             result.Drums.FirstOrDefault()?.Label.Should().Be("Second test drum");
         }
@@ -44,11 +44,11 @@ namespace Beehive.Api.Test
             var mockedClient = new Mock<IDrumClient>();
             mockedClient
                 .Setup(x => x.GetDrumsForWarehouse(It.IsAny<int>()))
-                .Returns(new List<Drum> {new() {Label = "Mocked Drum"}});
+                .Returns(new List<Drum> { new() { Label = "Mocked Drum" } });
             _fixture.Replace(mockedClient.Object);
             var itemUnderTest = _fixture.GetService<IDrumService>();
 
-            var result = await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 5});
+            var result = await itemUnderTest.GetAsync(new GetDrumsQueryDto { WarehouseNumber = 5 });
 
             result.Drums.FirstOrDefault()?.Label.Should().Be("Mocked Drum");
         }
@@ -63,7 +63,7 @@ namespace Beehive.Api.Test
             var itemsInRepoBeforeMethodCall = repository.GetAll();
             itemsInRepoBeforeMethodCall.Count().Should().Be(0);
 
-            await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
+            await itemUnderTest.GetAsync(new GetDrumsQueryDto { WarehouseNumber = 4 });
 
             var itemsInRepoAfterMethodCall = repository.GetAll();
             itemsInRepoAfterMethodCall.Count().Should().Be(1);
@@ -77,7 +77,7 @@ namespace Beehive.Api.Test
             _fixture.Replace<IDrumClient>(spy);
             var itemUnderTest = _fixture.GetService<IDrumService>();
 
-            await itemUnderTest.GetAsync(new GetDrumsQueryDto {WarehouseNumber = 4});
+            await itemUnderTest.GetAsync(new GetDrumsQueryDto { WarehouseNumber = 4 });
 
             spy.RecordedWarehouseNumbers.Count.Should().Be(1);
             spy.RecordedWarehouseNumbers.FirstOrDefault().Should().Be(4);
