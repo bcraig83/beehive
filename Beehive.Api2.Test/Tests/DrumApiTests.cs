@@ -15,9 +15,14 @@ public class DrumApiTests
     [Fact]
     public async Task GetMethodShouldReturnData()
     {
+        // Arrange
         var factory = new CustomWebApplicationFactory();
         var client = factory.CreateClient();
+        
+        // Act
         var response = await client.GetFromJsonAsync<IEnumerable<DrumDto>>("/api/Drum");
+        
+        // Assert
         var drumDtos = (response ?? throw new InvalidOperationException()).ToList();
         drumDtos.Should().NotBeNull();
         drumDtos.Should().NotContainNulls();
