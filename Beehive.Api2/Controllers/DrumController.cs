@@ -1,4 +1,5 @@
 using Beehive.Api2.Models.DTOs;
+using Beehive.Api2.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beehive.Api2.Controllers;
@@ -7,7 +8,14 @@ namespace Beehive.Api2.Controllers;
 [ApiController]
 public class DrumController : ControllerBase
 {
+    private readonly IDrumService _drumService;
+
     // GET: api/Drum
+    public DrumController(IDrumService drumService)
+    {
+        _drumService = drumService;
+    }
+
     [HttpGet]
     public IEnumerable<DrumDto> Get()
     {
@@ -23,8 +31,9 @@ public class DrumController : ControllerBase
 
     // POST: api/Drum
     [HttpPost]
-    public void Post([FromBody] DrumDto value)
+    public async Task<DrumDto> Post([FromBody] DrumDto value)
     {
+        return await _drumService.CreateAsync(value);
     }
 
     // PUT: api/Drum/5
