@@ -22,7 +22,7 @@ public class DrumService : IDrumService
 
     public async Task<IEnumerable<DrumDto>> GetAllAsync()
     {
-        var responseFromApi = _client.GetDrumsForWarehouse(1);
+        var responseFromApi = _client.GetDrumsForWarehouse(4);
         _context.Drums.AddRange(responseFromApi);
         await _context.SaveChangesAsync();
 
