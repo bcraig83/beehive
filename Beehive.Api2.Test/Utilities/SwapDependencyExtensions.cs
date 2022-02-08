@@ -6,13 +6,13 @@ namespace Beehive.Api2.Test.Utilities;
 
 public static class SwapDependencyExtensions
 {
-    public static void SwapTransient<TService>(this IServiceCollection services,
+    public static void Swap<TService>(this IServiceCollection services,
         Func<IServiceProvider, TService> implementationFactory)
     {
-        if (services.Any(x => x.ServiceType == typeof(TService) && x.Lifetime == ServiceLifetime.Transient))
+        if (services.Any(x => x.ServiceType == typeof(TService)))
         {
             var serviceDescriptors = services
-                .Where(x => x.ServiceType == typeof(TService) && x.Lifetime == ServiceLifetime.Transient).ToList();
+                .Where(x => x.ServiceType == typeof(TService)).ToList();
 
             foreach (var serviceDescriptor in serviceDescriptors)
             {
@@ -20,6 +20,6 @@ public static class SwapDependencyExtensions
             }
         }
 
-        services.AddTransient(typeof(TService), sp => implementationFactory(sp) ?? throw new InvalidOperationException());
+        services.AddSingleton(typeof(TService), sp => implementationFactory(sp));
     }
 }

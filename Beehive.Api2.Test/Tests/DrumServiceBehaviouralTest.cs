@@ -34,7 +34,7 @@ public class DrumServiceBehaviouralTest
         // Arrange
         var factory = new CustomWebApplicationFactory
         {
-            Registrations = services => { services.SwapTransient<IDrumClient>(_ => new DrumClientStub()); }
+            Registrations = services => { services.Swap<IDrumClient>(_ => new DrumClientStub()); }
         };
         using var scope = factory.Services.CreateScope();
         var itemUnderTest = (IDrumService)scope.ServiceProvider.GetRequiredService(typeof(IDrumService));
@@ -57,7 +57,7 @@ public class DrumServiceBehaviouralTest
 
         var factory = new CustomWebApplicationFactory
         {
-            Registrations = services => { services.SwapTransient(_ => mockedClient.Object); }
+            Registrations = services => { services.Swap(_ => mockedClient.Object); }
         };
         using var scope = factory.Services.CreateScope();
         var itemUnderTest = (IDrumService)scope.ServiceProvider.GetRequiredService(typeof(IDrumService));
@@ -96,7 +96,7 @@ public class DrumServiceBehaviouralTest
         var spy = new DrumClientSpy();
         var factory = new CustomWebApplicationFactory
         {
-            Registrations = services => { services.SwapTransient<IDrumClient>(_ => spy); }
+            Registrations = services => { services.Swap<IDrumClient>(_ => spy); }
         };
         using var scope = factory.Services.CreateScope();
         var itemUnderTest = (IDrumService)scope.ServiceProvider.GetRequiredService(typeof(IDrumService));
