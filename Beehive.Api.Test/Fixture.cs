@@ -50,7 +50,11 @@ namespace Beehive.Api.Test
         public void Replace<T>(T replacement) where T : class
         {
             var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(T));
-            if (descriptor != null) _services.Remove(descriptor);
+            if (descriptor != null)
+            {
+                _services.Remove(descriptor);
+            }
+
             _services.AddScoped(_ => replacement);
             InitializeScopeFactory();
         }
@@ -58,11 +62,19 @@ namespace Beehive.Api.Test
         private void UseInMemoryDatabase()
         {
             var descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(DrumDbContext));
-            if (descriptor != null) _services.Remove(descriptor);
+            if (descriptor != null)
+            {
+                _services.Remove(descriptor);
+            }
+
             _services.AddDbContext<DrumDbContext>(options => options.UseInMemoryDatabase("drumSampleDb"));
 
             descriptor = _services.SingleOrDefault(d => d.ServiceType == typeof(DbContext));
-            if (descriptor != null) _services.Remove(descriptor);
+            if (descriptor != null)
+            {
+                _services.Remove(descriptor);
+            }
+
             _services.AddScoped<DbContext>(provider => provider.GetService<DrumDbContext>());
         }
 
@@ -70,7 +82,11 @@ namespace Beehive.Api.Test
         {
             var unitOfWork = GetService<IUnitOfWork>();
             var existingEntities = unitOfWork.DrumRepository.GetAll();
-            foreach (var entity in existingEntities) unitOfWork.DrumRepository.Delete(entity);
+            foreach (var entity in existingEntities)
+            {
+                unitOfWork.DrumRepository.Delete(entity);
+            }
+
             await unitOfWork.SaveChangesAsync();
         }
     }

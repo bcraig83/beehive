@@ -17,7 +17,10 @@ namespace Beehive.Api.Infrastructure.DataAccess
 
         public void Add(T entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
 
             _dbSet.Add(entity);
         }
@@ -35,14 +38,20 @@ namespace Beehive.Api.Infrastructure.DataAccess
 
         public void Update(T entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
 
             _dbSet.Update(entity);
         }
 
         public void Delete(T entity)
         {
-            if (entity != null) _dbSet.Remove(entity);
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
+            }
         }
     }
 }

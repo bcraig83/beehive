@@ -27,10 +27,7 @@ namespace Beehive.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Beehive.Api", Version = "v1"});
-            });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Beehive.Api", Version = "v1" }); });
 
             services.AddTransient<IRepository<Drum>, Repository<Drum>>();
             services.AddTransient<IDrumService, DrumService>();
